@@ -804,4 +804,14 @@ public class PictureExplorer implements MouseMotionListener, ActionListener, Mou
     pix.explore();
   }
   
-}
+}/*
+Questions:
+1. 0
+2. 0
+3. 640
+4.480
+5.Left to right
+6.Top to bottom
+7.Yes
+
+ */
