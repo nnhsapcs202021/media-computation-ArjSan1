@@ -14,7 +14,12 @@ import java.util.List; // resolves problem with java.awt.List and java.util.List
  * @author Barbara Ericson ericson@cc.gatech.edu
  */
 public class Picture extends SimplePicture 
+
 {
+    private static final Color YELLOW = new Color( 255, 243, 71 );
+    private static final Color CYAN = new Color( 157, 254, 225 );
+    private static final Color ORANGE = new Color( 255, 89, 0 );
+    private static final Color PURPLE = new Color( 167, 86, 255);
   ///////////////////// constructors //////////////////////////////////
   
   /**
@@ -139,63 +144,119 @@ public class Picture extends SimplePicture
       }
     }
   }
+    /**
+     * Posterizes the color of every pixel in the picture to inputted colors and subranges.
+     *
+     * @param 4 colors to input, and 3 subranges
+     */
+    public void posterize(Picture srcPic, Color colorToSet1 , Color colorToSet2, Color colorToSet3, Color colorToSet4,double subrange1, double subrange2, double subrange3)
+    {
+        int width = srcPic.getWidth();
+        int height = srcPic.getHeight();
+
+        for( int y = 0; y < height; y++ )
+        {
+            for( int x = 0; x < width; x++ )
+            {
+                Pixel pixel = srcPic.getPixel( x, y );
+                Color color = pixel.getColor();
+                int r = pixel.getRed();
+                if (r < subrange1)
+                {
+                    Color posterize1 = colorToSet1 ;
+                    pixel.setColor( posterize1 );
+                }
+                else if ( r > subrange1 && r<subrange2  ) 
+                {
+                    Color posterize2 = colorToSet2 ;
+                    pixel.setColor( posterize2 );
+                }
+                else if ( r > subrange2 && r<subrange3  ) 
+                {
+                    Color posterize3 = colorToSet3 ;
+                    pixel.setColor( posterize3 );
+                }
+                else
+                {
+                    Color posterize4 = colorToSet4 ;
+                    pixel.setColor( posterize4 );
+                }
+            }
+        }
+    }
+   public void transform()
+    {
+        //invoked greyscale method on manipulator object
+        this.grayscale();
+        // finding largest greyscale value
+        int width = this.getWidth();
+        int height = this.getHeight();
+        int max = 0;
+        for( int y = 0; y < height; y++ )
+        {
+            for( int x = 0; x < width; x++ )
+            {
+                Pixel pixel = this.getPixel( x, y );
+                Color color = pixel.getColor();
+                int red = color.getRed();
+
+                if (red > max)
+                {
+                    max = red;
+                }
+            }
+        }
+        //finding smallest greyscale value
+        int min = 255;
+        for( int y = 0; y < height; y++ )
+        {
+            for( int x = 0; x < width; x++ )
+            {
+                Pixel pixel = this.getPixel( x, y );
+                Color color = pixel.getColor();
+                int red = color.getRed();
+
+                if (red < min)
+                {
+                    min = red;
+                }
+            }
+        }
+        double totalRange = max-min;
+        double subrange1 = (totalRange)/(4);
+        double subrange2 = subrange1 * 2;
+        double subrange3 = subrange1 * 3;        
+       this.posterize(this, PURPLE, ORANGE, CYAN,YELLOW, subrange1, subrange2, subrange3);
+
+    }
   public void cropAndCopy(Picture sourcePicture, int startSourceRow, int endSourceRow, int startSourceCol, 
   int endSourceCol, int startDestRow, int startDestCol){
 
       Pixel[][] originalImage = this.getPixels2D();
-      Pixel[][] inputImage = sourcePicture.getPixels2D();
+      Pixel[][] inputtedImage = sourcePicture.getPixels2D();
 
       Pixel original = null;
-      Pixel modified = null;
+      Pixel changed = null;
+     int c = 0;
+     int r = 0;
+     
 
-
-      for (int row=startDestRow; row < endSourceRow+(startDestRow-startSourceRow);row++){
-
-          for (int col=startDestCol; col<endSourceCol+(startDestCol-startSourceCol); col++){
-
-             //pixels[row][col] = pixels[endSourceRow-(startDestRow-startSourceRow)][startDestCol-(endSourceCol-startSourceCol)];
-
-
-             original = originalImage[row][col];
-             modified = inputImage[row][col];
-
-             original.setColor(modified.getColor());
-
-
-
-
-          }
-
-
-
-
-
-
-      }
       for (int row=startSourceRow; row < endSourceRow;row++){
-
+                
           for (int col=startSourceCol; col<endSourceCol; col++){
-
-             //pixels[row][col] = pixels[endSourceRow-(startDestRow-startSourceRow)][startDestCol-(endSourceCol-startSourceCol)];
-
-
-             original = originalImage[row+startDestRow][col+startDestCol];
-             modified = inputImage[row][col];
-
-             original.setColor(modified.getColor());
-
-
-
-
-          }
-
-
-
-
-
-
+             original = originalImage[r+startDestRow][c+startDestCol];
+             changed = inputtedImage[row][col];
+             original.setColor(changed.getColor());
+             c++;
+       
+            }
+          r++;
+          c=0;
       }
-    }
+
+    
+  }
+
   /** Method that mirrors the picture around a 
     * vertical mirror in the center of the picture
     * from left to right */
