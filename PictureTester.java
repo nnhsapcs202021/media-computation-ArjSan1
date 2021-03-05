@@ -81,7 +81,7 @@ public static void testMirrorHorizontalBotToTop()
         //testMirrorVertical();
 //testMirrorHorizontal();
 
-//        testMirrorVerticalRightToLeft;
+//        testMirrorVerticalRightToLeft();
         //testMirrorTemple();
         //testMirrorArms();
         //testMirrorGull();
