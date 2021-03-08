@@ -19,15 +19,15 @@ public class Collage
         squidward3.grayscale();
         squidward4.edgeDetection(20);
         /*public void cropAndCopy(Picture sourcePicture, int startSourceRow, int endSourceRow, int startSourceCol, 
-  int endSourceCol, int startDestRow, int startDestCol)*/
-    //squidward.explore();
-      canvas.cropAndCopy(squidward, 0, 409, 0,248, 0, 0);  
-      canvas.cropAndCopy(squidward2, 0, 409, 0, 248, 409, 0); 
-      canvas.cropAndCopy(squidward3, 0, 409, 0, 248, 0, 248); 
-            canvas.cropAndCopy(squidward4, 0, 409, 0, 248, 409, 248); 
-
+        int endSourceCol, int startDestRow, int startDestCol)*/
+        //squidward.explore();
+        canvas.cropAndCopy(squidward, 0, 409, 0,248, 0, 0);  
+        canvas.cropAndCopy(squidward2, 0, 409, 0, 248, 409, 0); 
+        canvas.cropAndCopy(squidward3, 0, 409, 0, 248, 0, 248); 
+        canvas.cropAndCopy(squidward4, 0, 409, 0, 248, 409, 248); 
+        canvas.write("C:\\Users\\Arjun\\Desktop\\Comp Sci\\media-computation\\images\\SquidwardFinal.jpg");
 
         canvas.explore();
     }
-    
+
 }
